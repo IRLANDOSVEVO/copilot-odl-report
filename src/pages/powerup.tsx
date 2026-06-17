@@ -2,6 +2,13 @@ import React, { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { ChatPanel } from "@/components/ChatPanel";
 
+// ✅ QUI (FUORI dal componente)
+declare global {
+  interface Window {
+    TrelloPowerUp: any;
+  }
+}
+
 export interface TrelloContext {
   boardId?: string;
   cardId?: string;
@@ -15,27 +22,15 @@ const PowerUp: NextPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Dichiarare il tipo globale TrelloPowerUp
-    declare global {
-      interface Window {
-        TrelloPowerUp: any;
-      }
-    }
+    // ✅ niente declare global qui
 
-    // Verificare se Trello Power-Up API è disponibile
     if (typeof window !== "undefined" && window.TrelloPowerUp) {
       try {
-        // Inizializzare l'iframe con Trello Power-Up API
         const t = window.TrelloPowerUp.iframe();
 
-        // Tentare di ottenere il contesto dalla pagina
-        // get() ritorna una Promise
         t.get("member", "id").then((memberId: string | undefined) => {
-          // Tentare di ottenere boardId
           t.get("board", "id").then((boardId: string | undefined) => {
-            // Tentare di ottenere cardId (se si è in un contesto di scheda)
             t.get("card", "id").then((cardId: string | undefined) => {
-              // Costruire il contesto
               const context: TrelloContext = {
                 boardId,
                 cardId,
@@ -50,15 +45,14 @@ const PowerUp: NextPage = () => {
         });
       } catch (error) {
         console.warn(
-          "[PowerUp] Trello Power-Up API non disponibile o errore nel caricamento contesto:",
+          "[PowerUp] Trello Power-Up API non disponibile:",
           error
         );
         setLoading(false);
       }
     } else {
-      // Se il Power-Up non è caricato (ad es. in dev mode senza Trello iframe)
       console.warn(
-        "[PowerUp] window.TrelloPowerUp non disponibile. Modalità sviluppo?"
+        "[PowerUp] window.TrelloPowerUp non disponibile (dev mode)"
       );
       setLoading(false);
     }
@@ -73,14 +67,9 @@ const PowerUp: NextPage = () => {
           alignItems: "center",
           height: "100vh",
           backgroundColor: "#F8F9FA",
-          fontFamily:
-            "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
         }}
       >
-        <div style={{ textAlign: "center" }}>
-          <div style={{ fontSize: "32px", marginBottom: "16px" }}>⏳</div>
-          <div style={{ color: "#626F86" }}>Caricamento del contesto Trello...</div>
-        </div>
+        <div>Caricamento...</div>
       </div>
     );
   }
@@ -89,3 +78,4 @@ const PowerUp: NextPage = () => {
 };
 
 export default PowerUp;
+``
