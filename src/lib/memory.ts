@@ -64,7 +64,7 @@ export async function loadUserMemory(userId?: string): Promise<UserMemory | null
  * @param input Dati del turno di conversazione
  */
 export async function saveConversationTurn(input: ConversationTurn): Promise<void> {
-  const { userId, boardId, cardId, assistantText } = input;
+  const { userId, boardId, cardId } = input;
 
   // STUB: In produzione, salvare su database
   // Esempio (Supabase):
