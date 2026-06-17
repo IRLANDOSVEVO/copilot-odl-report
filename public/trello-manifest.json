@@ -1,0 +1,23 @@
+{
+  "name": "Copilot ODL & Report",
+  "description": "Chatbot professionale per report, ODL e scadenze dentro Trello. Gestisci le operazioni con intelligenza artificiale.",
+  "author": "Federico",
+  "icon": {
+    "url": "https://via.placeholder.com/48"
+  },
+  "author_email": "info@copilot.local",
+  "capabilities": [
+    "board-buttons",
+    "card-buttons",
+    "card-back-section",
+    "show-settings"
+  ],
+  "connectors": {
+    "iframe": {
+      "url": "https://YOUR_DOMAIN.vercel.app/powerup"
+    }
+  },
+  "settings": {
+    "url": "https://YOUR_DOMAIN.vercel.app"
+  }
+}
