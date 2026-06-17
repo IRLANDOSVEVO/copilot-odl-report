@@ -85,7 +85,7 @@ async function loadCardContext(
       : null;
 
     const dueStatus =
-      !dueDate ? "senza scadenza" : isOverdue ? `IN RITARDO (${Math.abs(daysUntilDue)} giorni)` : `scade tra ${daysUntilDue} giorni`;
+      !dueDate ? "senza scadenza" : isOverdue ? `IN RITARDO (${Math.abs(daysUntilDue ?? 0)} giorni)` : `scade tra ${daysUntilDue} giorni`;
 
     const labelsStr =
       card.labels && card.labels.length > 0
