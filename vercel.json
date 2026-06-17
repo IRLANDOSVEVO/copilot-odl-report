@@ -3,28 +3,4 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "regions": ["iad"],
-  "env": {
-    "AI_API_KEY": {
-      "description": "OpenAI API Key",
-      "required": true
-    },
-    "AI_MODEL": {
-      "description": "AI Model to use (e.g., gpt-4-mini, gpt-4)",
-      "default": "gpt-4-mini",
-      "required": false
-    },
-    "TRELLO_KEY": {
-      "description": "Trello API Key",
-      "required": true
-    },
-    "TRELLO_TOKEN": {
-      "description": "Trello API Token",
-      "required": true
-    },
-    "NEXT_PUBLIC_APP_URL": {
-      "description": "Public URL of the deployment",
-      "required": true
-    }
-  }
-}
+  "regions": ["iad"]
