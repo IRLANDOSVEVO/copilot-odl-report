@@ -14,7 +14,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({ role, text }) => {
         display: "flex",
         justifyContent: isUser ? "flex-end" : "flex-start",
         marginBottom: "12px",
-        paddingHorizontal: "12px",
+        padding: "0 12px",
       }}
     >
       <div
