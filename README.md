@@ -1,4 +1,5 @@
 # Copilot ODL & Report – Trello Power-Up
+Deploy test
 
 Un Power-Up Trello professionale che integra un chatbot AI per:
 - **Reportistica operativa** in tempo reale
