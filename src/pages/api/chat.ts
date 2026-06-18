@@ -86,7 +86,7 @@ export default async function handler(
     ];
 
     // 5. Chiamare l'API AI (OpenAI compatible)
-    const aiModel = process.env.AI_MODEL || "gpt-4o-mini";
+    const aiModel = "gpt-3.5-turbo";
     const aiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -101,16 +101,16 @@ export default async function handler(
       }),
     });
 
-    if (!aiResponse.ok) {
-      const errorBody = await aiResponse.text();
-      console.error(
-        `[Chat API] AI API error ${aiResponse.status}:`,
-        errorBody
-      );
-      return res
-        .status(500)
-        .json({ error: "Failed to get response from AI service" });
-    }
+    
+if (!aiResponse.ok) {
+  const errorBody = await aiResponse.text();
+  console.error("[Chat API ERROR]:", aiResponse.status, errorBody);
+
+  return res.status(500).json({
+    error: errorBody
+  });
+}
+
 
     const aiData = await aiResponse.json();
 
