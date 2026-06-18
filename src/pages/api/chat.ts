@@ -81,14 +81,18 @@ export default async function handler(
 
     // 5. Chiamare l'API AI (OpenAI compatible)
     
-    const aiModel = "mistralai/mistral-7b-instruct:free";
+    const aiModel = "openrouter/auto";
 
 const aiResponse = await fetch("https://openrouter.ai/api/v1/chat/completions", {
   method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${aiApiKey}`,
-  },
+  
+headers: {
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${aiApiKey}`,
+  "HTTP-Referer": "https://copilot-odl-report.vercel.app",
+  "X-Title": "Copilot ODL Report"
+},
+
   body: JSON.stringify({
   model: aiModel,
   messages: [
