@@ -39,7 +39,11 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ trelloContext }) => {
 
   // Funzione per inviare un messaggio
   const handleSendMessage = useCallback(async () => {
-    if (!input.trim() || loading) return;
+    if (!input.trim() || loading || !trelloContext?.boardId) {
+  console.warn("Trello context non pronto");
+  return;
+}
+
 
     // Aggiungere il messaggio dell'utente
     const userMessage: Message = {
@@ -59,6 +63,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ trelloContext }) => {
         cardId: trelloContext?.cardId,
         userId: trelloContext?.userId,
       };
+      console.log("Sending payload:", payload);
 
       // Chiamare l'API /api/chat
       const response = await fetch("/api/chat", {
@@ -149,12 +154,20 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ trelloContext }) => {
             Assistente operativo professionale
           </p>
         </div>
-        {trelloContext && (
-          <div style={{ fontSize: "12px", color: "#626F86", textAlign: "right" }}>
-            {trelloContext.cardId && <div>📌 Scheda: {trelloContext.cardId.slice(0, 8)}...</div>}
-            {trelloContext.boardId && <div>📊 Bacheca: {trelloContext.boardId.slice(0, 8)}...</div>}
-          </div>
-        )}
+        {trelloContext?.boardId && (
+  <div style={{ fontSize: "12px", color: "#626F86", textAlign: "right" }}>
+    {trelloContext.cardId && (
+      <div>📌 Scheda: {trelloContext.cardId.slice(0, 8)}...</div>
+    )}
+    <div>📊 Bacheca: {trelloContext.boardId.slice(0, 8)}...</div>
+  </div>
+)}
+
+{!trelloContext?.boardId && (
+  <div style={{ fontSize: "12px", color: "orange", textAlign: "right" }}>
+    ⏳ Connessione a Trello...
+  </div>
+)}
       </div>
 
       {/* Area messaggi scrollabile */}
@@ -233,7 +246,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ trelloContext }) => {
         />
         <button
           onClick={handleSendMessage}
-          disabled={loading || !input.trim()}
+          disabled={loading || !input.trim() || !trelloContext?.boardId}
           style={{
             padding: "10px 16px",
             borderRadius: "8px",
