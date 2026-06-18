@@ -77,13 +77,7 @@ export default async function handler(
 
     // 4. Preparare messaggi per l'AI
     // Convertire i messaggi al formato OpenAI
-    const aiMessages = [
-      { role: "system", content: systemPrompt },
-      ...messages.map((msg) => ({
-        role: msg.role,
-        content: msg.text,
-      })),
-    ];
+    
 
     // 5. Chiamare l'API AI (OpenAI compatible)
     
