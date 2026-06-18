@@ -86,20 +86,27 @@ export default async function handler(
     ];
 
     // 5. Chiamare l'API AI (OpenAI compatible)
-    const aiModel = "gpt-3.5-turbo";
-    const aiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${aiApiKey}`,
-      },
-      body: JSON.stringify({
-        model: aiModel,
-        messages: aiMessages,
-        temperature: 0.7,
-        max_tokens: 500,
-      }),
-    });
+    
+    const aiModel = "gpt-4o-mini";
+
+const aiResponse = await fetch("https://api.openai.com/v1/responses", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${aiApiKey}`,
+  },
+  body: JSON.stringify({
+    model: aiModel,
+    input: [
+      { role: "system", content: systemPrompt },
+      ...messages.map((msg) => ({
+        role: msg.role,
+        content: msg.text,
+      })),
+    ],
+  }),
+});
+
 
     
 if (!aiResponse.ok) {
@@ -114,10 +121,14 @@ if (!aiResponse.ok) {
 
     const aiData = await aiResponse.json();
 
-    // Estrarre la risposta dal modello
-    const aiReply =
-      aiData.choices?.[0]?.message?.content?.trim() ||
-      "Errore: nessuna risposta dal modello.";
+    // Estrarre la risposta dal modello  
+   const aiReply =
+  aiData.output?.[0]?.content?.[0]?.text ||
+  aiData.output_text ||
+  "Errore: nessuna risposta dal modello.";
+    console.log("AI RAW RESPONSE:", JSON.stringify(aiData, null, 2));
+
+
 
     // 6. Salvare il turno di conversazione
     await saveConversationTurn({
