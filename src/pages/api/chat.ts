@@ -81,24 +81,24 @@ export default async function handler(
 
     // 5. Chiamare l'API AI (OpenAI compatible)
     
-    const aiModel = "gpt-4o-mini";
+    const aiModel = "mistralai/mistral-7b-instruct:free";
 
-const aiResponse = await fetch("https://api.openai.com/v1/responses", {
+const aiResponse = await fetch("https://openrouter.ai/api/v1/chat/completions", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
     Authorization: `Bearer ${aiApiKey}`,
   },
   body: JSON.stringify({
-    model: aiModel,
-    input: [
-      { role: "system", content: systemPrompt },
-      ...messages.map((msg) => ({
-        role: msg.role,
-        content: msg.text,
-      })),
-    ],
-  }),
+  model: aiModel,
+  messages: [
+    { role: "system", content: systemPrompt },
+    ...messages.map((msg) => ({
+      role: msg.role,
+      content: msg.text,
+    })),
+  ],
+}),
 });
 
 
@@ -116,10 +116,11 @@ if (!aiResponse.ok) {
     const aiData = await aiResponse.json();
 
     // Estrarre la risposta dal modello  
-   const aiReply =
-  aiData.output?.[0]?.content?.[0]?.text ||
-  aiData.output_text ||
-  "Errore: nessuna risposta dal modello.";
+   
+const aiReply =
+  aiData.choices?.[0]?.message?.content ||
+  "Errore risposta AI";
+
     console.log("AI RAW RESPONSE:", JSON.stringify(aiData, null, 2));
 
 
