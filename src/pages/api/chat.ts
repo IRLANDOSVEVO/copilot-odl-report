@@ -86,7 +86,7 @@ export default async function handler(
     ];
 
     // 5. Chiamare l'API AI (OpenAI compatible)
-    const aiModel = process.env.AI_MODEL || "gpt-4-mini";
+    const aiModel = process.env.AI_MODEL || "gpt-4o-mini";
     const aiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
