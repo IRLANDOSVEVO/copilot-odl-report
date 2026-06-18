@@ -58,6 +58,52 @@ const PowerUp: NextPage = () => {
     }
   }, []);
 
+  useEffect(() => {
+  if (typeof window !== "undefined") {
+    const script = document.createElement("script");
+    script.src = "https://p.trellocdn.com/power-up.min.js";
+    script.async = true;
+
+    script.onload = () => {
+      const TrelloPowerUp = window.TrelloPowerUp;
+
+      if (TrelloPowerUp) {
+        TrelloPowerUp.initialize({
+
+          "card-buttons": function () {
+            return [{
+              text: "Copilot ODL",
+              callback: function (t: any) {
+                return t.popup({
+                  title: "Copilot ODL",
+                  url: "/powerup",
+                  height: 600
+                });
+              }
+            }];
+          },
+
+          "board-buttons": function () {
+            return [{
+              text: "Copilot ODL",
+              callback: function (t: any) {
+                return t.popup({
+                  title: "Copilot ODL",
+                  url: "/powerup",
+                  height: 700
+                });
+              }
+            }];
+          }
+
+        });
+      }
+    };
+
+    document.body.appendChild(script);
+  }
+}, []);
+
   if (loading) {
     return (
       <div
